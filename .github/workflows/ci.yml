@@ -21,13 +21,13 @@ jobs:
           distribution: 'temurin'
 
 
-      - name: make application-dev.yaml
+      - name: make application.yml
         run: |
           mkdir -p ./src/main/resources
           touch ./src/main/resources/application.yml
           echo "${{ secrets.PROPERTIES_DEV }}" > ./src/main/resources/application.yml
 
-      - name: make test application.yaml
+      - name: make test application.yml
         run: |
           touch ./src/test/resources/application.yml
           echo "${{ secrets.PROPERTIES_TEST }}" > ./src/test/resources/application.yml
