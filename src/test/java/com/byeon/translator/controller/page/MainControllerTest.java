@@ -23,7 +23,7 @@ class MainControllerTest {
 
     @Test
     @DisplayName("[View] 메인 페이지 이동")
-    void main() throws Exception {
+    void moveMainPageTest() throws Exception {
         mvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("main"));
