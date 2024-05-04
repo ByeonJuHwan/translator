@@ -80,6 +80,18 @@ class MemberControllerTest extends AbstractContainerBaseTest{
 
     }
 
+
+    @Test
+    @WithAnonymousUser
+    @DisplayName("[로그인] 로그인 페이지 이동 성공")
+    void moveLoginPageTest() throws Exception {
+        mockMvc.perform(get("/member/login"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("member/login"))
+                .andExpect(model().attributeExists("login"))
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML));
+    }
+
     private MemberJoinRequest validRequest() {
         return new MemberJoinRequest("test", "test" ,"test");
     }
