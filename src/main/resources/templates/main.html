@@ -68,7 +68,7 @@
                     <a class="nav-link" th:href="@{/login}">로그인</a>
                 </li>
                 <li class="nav-item" sec:authorize="isAnonymous()">
-                    <a class="nav-link" th:href="@{/join}">회원가입</a>
+                    <a class="nav-link" th:href="@{/member/join}">회원가입</a>
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <form th:action="@{/logout}" method="post">
@@ -113,7 +113,7 @@
             <h1>실시간 번역기 입니다</h1>
             <div class="mt-4">
                 <a th:href="@{/login}" class="btn btn-primary btn-lg">로그인</a>
-                <a th:href="@{/join}" class="btn btn-secondary btn-lg">회원가입</a>
+                <a th:href="@{/member/join}" class="btn btn-secondary btn-lg">회원가입</a>
             </div>
         </th:block>
     </div>
