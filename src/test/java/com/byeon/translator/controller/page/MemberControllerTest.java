@@ -22,8 +22,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class MemberControllerTest extends AbstractContainerBaseTest{
 
-    @Autowired
-    private MockMvc mockMvc;
+    private final MockMvc mockMvc;
+
+    MemberControllerTest(@Autowired MockMvc mockMvc) {
+        this.mockMvc = mockMvc;
+    }
+
 
     @MockBean
     private MemberFrontService memberFrontService;
