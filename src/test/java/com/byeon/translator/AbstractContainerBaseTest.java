@@ -4,7 +4,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.testcontainers.containers.GenericContainer;
 
 @SpringBootTest
-abstract class AbstractContainerBaseTest {
+public abstract class AbstractContainerBaseTest {
     static final GenericContainer REDIS_CONTAINER;
 
     static {
