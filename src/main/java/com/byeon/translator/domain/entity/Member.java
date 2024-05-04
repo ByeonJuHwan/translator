@@ -32,4 +32,13 @@ public class Member {
         this.name = name;
         this.notes = notes;
     }
+
+    public static Member of(String userId, String password, String name, List<Note> notes) {
+        return Member.builder()
+                .name(name)
+                .password(password)
+                .userId(userId)
+                .notes(notes)
+                .build();
+    }
 }
