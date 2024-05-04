@@ -28,10 +28,10 @@ public class SecurityConfig {
                 )
                 .formLogin(formLogin -> formLogin
                                 .usernameParameter("userId")
-                                .loginPage("/login") // 로그인 페이지 URL 설정
-                                .loginProcessingUrl("/login") // 로그인 폼 제출 URL
+                                .loginPage("/member/login") // 로그인 페이지 URL 설정
+                                .loginProcessingUrl("/member/login") // 로그인 폼 제출 URL
                                 .defaultSuccessUrl("/", true) // 로그인 성공 시 리다이렉트할 URL
-                                .failureUrl("/login?error=login.failure") // 로그인 실패 시 리다이렉트할 URL
+                                .failureUrl("/member/login?error=login.failure") // 로그인 실패 시 리다이렉트할 URL
                                 .permitAll()
                 )
                 .logout(logout -> logout

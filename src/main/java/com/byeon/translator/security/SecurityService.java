@@ -25,6 +25,6 @@ public class SecurityService implements UserDetailsService {
 
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority("USER");
 
-        return new User(member.getUserId(), null, Collections.singletonList(authority));
+        return new User(member.getUserId(), member.getPassword(), Collections.singletonList(authority));
     }
 }
