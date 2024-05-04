@@ -1,7 +1,7 @@
 package com.byeon.translator.controller.page;
 
 import com.byeon.translator.AbstractContainerBaseTest;
-import com.byeon.translator.controller.request.MemberJoinRequest;
+import com.byeon.translator.controller.request.member.MemberJoinRequest;
 import com.byeon.translator.service.member.front.MemberFrontService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

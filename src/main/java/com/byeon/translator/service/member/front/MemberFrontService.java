@@ -1,6 +1,6 @@
 package com.byeon.translator.service.member.front;
 
-import com.byeon.translator.controller.request.MemberJoinRequest;
+import com.byeon.translator.controller.request.member.MemberJoinRequest;
 import com.byeon.translator.domain.entity.Member;
 import com.byeon.translator.service.member.MemberWriteService;
 import lombok.RequiredArgsConstructor;

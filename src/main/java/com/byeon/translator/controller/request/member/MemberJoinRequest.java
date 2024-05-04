@@ -1,6 +1,5 @@
-package com.byeon.translator.controller.request;
+package com.byeon.translator.controller.request.member;
 
-import com.byeon.translator.domain.entity.Member;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
