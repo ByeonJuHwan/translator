@@ -1,11 +1,14 @@
 package com.byeon.translator.controller.request;
 
+import com.byeon.translator.domain.entity.Member;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 @Getter
+@Setter
 @AllArgsConstructor
 public class MemberJoinRequest {
 
@@ -16,4 +19,7 @@ public class MemberJoinRequest {
     @NotBlank
     @Length(min = 2, max = 13)
     private String password;
+
+    @NotBlank
+    private String name;
 }
