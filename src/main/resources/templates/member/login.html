@@ -45,7 +45,7 @@
                 <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
             </div>
             <button type="submit" class="btn btn-primary btn-block">로그인</button>
-            <a href="/" class="btn btn-secondary btn-block mt-2">홈</a>
+            <a th:href="@{/}" class="btn btn-secondary btn-block mt-2">홈</a>
         </form>
     </div>
 </div>
