@@ -1,10 +1,8 @@
-package com.byeon.translator.controller.request;
+package com.byeon.translator.controller.request.member;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 
 
 @Getter

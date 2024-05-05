@@ -1,13 +1,12 @@
 package com.byeon.translator.controller.page;
 
 
-import com.byeon.translator.controller.request.MemberJoinRequest;
-import com.byeon.translator.controller.request.MemberLoginResponse;
+import com.byeon.translator.controller.request.member.MemberJoinRequest;
+import com.byeon.translator.controller.request.member.MemberLoginResponse;
 import com.byeon.translator.controller.response.MemberJoinResponse;
 import com.byeon.translator.service.member.front.MemberFrontService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
