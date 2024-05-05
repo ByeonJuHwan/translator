@@ -18,7 +18,6 @@ public class TranslateRestController {
 
     @PostMapping("/translate")
     public ResponseEntity<DeeplResponse> translateResult(@RequestBody TranslateRequest request) {
-        DeeplResponse deeplResponse = translateService.callApiResult(request);
-        return ResponseEntity.ok(deeplResponse);
+        return ResponseEntity.ok(translateService.callApiResult(request));
     }
 }
