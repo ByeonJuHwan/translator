@@ -64,6 +64,10 @@ dependencies {
 	// `StringUtils`
 	// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
 	implementation "org.apache.commons:commons-lang3:${commonsLangVersion}"
+
+	// rabbitMQ
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+	testImplementation 'org.springframework.amqp:spring-rabbit-test'
 }
 
 tasks.named('test') {

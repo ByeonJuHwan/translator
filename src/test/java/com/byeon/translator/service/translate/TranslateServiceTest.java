@@ -6,6 +6,7 @@ import com.byeon.translator.controller.response.NoteResponse;
 import com.byeon.translator.controller.response.deepl.DeeplResponse;
 import com.byeon.translator.controller.response.deepl.DeeplTranslateResult;
 import com.byeon.translator.domain.entity.Member;
+import com.byeon.translator.service.MessageQueueService;
 import com.byeon.translator.service.note.NoteService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -34,10 +36,8 @@ class TranslateServiceTest {
     @Mock
     private TranslateFeignClient translateFeignClient;
     @Mock
-    private MemberRepository memberRepository;
+    private MessageQueueService messageQueueService;
 
-    @Mock
-    private NoteService noteService;
 
     @Test
     @DisplayName("[번역] Deeple api 로 번역 성공")
@@ -45,6 +45,7 @@ class TranslateServiceTest {
         TranslateRequest request = new TranslateRequest();
         request.setText("안녕");
         request.setTargetLang("EN");
+        String userId = "test";
 
         DeeplTranslateResult translateResult = new DeeplTranslateResult();
         translateResult.setDetectedSourceLanguage("KO");
@@ -53,9 +54,7 @@ class TranslateServiceTest {
         DeeplResponse expectedResponse = new DeeplResponse();
         expectedResponse.setTranslations(Collections.singletonList(translateResult));
 
-        Member member = Member.builder().userId("test").build();
 
-        when(memberRepository.findMemberByUserId("test")).thenReturn(Optional.of(member));
         when(translateFeignClient.translate(any(MultiValueMap.class))).thenReturn(expectedResponse);
 
         DeeplResponse actualResponse = sut.callApiResult(request, "test");
@@ -63,6 +62,11 @@ class TranslateServiceTest {
         assertNotNull(actualResponse);
         assertThat(actualResponse.getTranslations().size()).isEqualTo(1);
         assertThat(actualResponse.getTranslations().get(0).getText()).isEqualTo("Hello");
-        verify(noteService).saveNote(any(NoteResponse.class));
+
+        verify(messageQueueService).saveMQNote(
+                eq("안녕"),
+                eq("Hello"),
+                eq(userId)
+        );
     }
 }
