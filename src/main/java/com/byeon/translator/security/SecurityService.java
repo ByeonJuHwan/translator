@@ -23,8 +23,10 @@ public class SecurityService implements UserDetailsService {
         Member member = memberRepository.findMemberByUserId(username)
                 .orElseThrow(() -> new UsernameNotFoundException("아이디가 없습니다 : " + username));
 
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("USER");
+        // TODO redis 에 여기서 member 를 넣어 줘서 DB IO 를 줄여보자
 
+
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("USER");
         return new User(member.getUserId(), member.getPassword(), Collections.singletonList(authority));
     }
 }
