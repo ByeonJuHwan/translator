@@ -1,9 +1,11 @@
 package com.byeon.translator.service.note;
 
+import com.byeon.translator.Repository.MemberCacheRepository;
 import com.byeon.translator.Repository.NoteRepository;
 import com.byeon.translator.Repository.member.MemberRepository;
 import com.byeon.translator.domain.entity.Member;
 import com.byeon.translator.domain.entity.Note;
+import com.byeon.translator.exception.custom.MemberNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,6 +32,8 @@ class NoteServiceTest {
     private MemberRepository memberRepository;
     @Mock
     private NoteRepository noteRepository;
+    @Mock
+    private MemberCacheRepository memberCacheRepository;
 
 
     @Test
@@ -50,5 +54,20 @@ class NoteServiceTest {
         // 검증
         assertThat(myNotes).isNotNull();
         assertThat(myNotes.size()).isEqualTo(1);
+    }
+
+
+    @Test
+    @DisplayName("[단어장] 일치하는 회원이 없을 경우 예외 발생")
+    void findMyNotes_MemberNotFoundException() {
+        // given
+        String userId = "nonexistentUser";
+
+        // when
+        when(memberCacheRepository.getUser(userId)).thenReturn(Optional.empty());
+        when(memberRepository.findMemberByUserId(userId)).thenReturn(Optional.empty());
+
+        // 검증
+        assertThatThrownBy(() -> sut.findMyNotes(userId)).isInstanceOf(MemberNotFoundException.class);
     }
 }

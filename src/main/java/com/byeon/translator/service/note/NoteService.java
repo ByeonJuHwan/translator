@@ -1,10 +1,12 @@
 package com.byeon.translator.service.note;
 
+import com.byeon.translator.Repository.MemberCacheRepository;
 import com.byeon.translator.Repository.NoteRepository;
 import com.byeon.translator.Repository.member.MemberRepository;
 import com.byeon.translator.controller.response.NoteResponse;
 import com.byeon.translator.domain.entity.Member;
 import com.byeon.translator.domain.entity.Note;
+import com.byeon.translator.exception.custom.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,11 +20,13 @@ public class NoteService {
 
     private final NoteRepository noteRepository;
     private final MemberRepository memberRepository;
+    private final MemberCacheRepository memberCacheRepository;
 
     @Transactional(readOnly = true)
     public List<Note> findMyNotes(String userId) {
-        // TODO 유저 검색을 2번씩 하므로 한쪽을 Redis 에 저장 (로그인할때, 번역 노트장)
-        Member member = memberRepository.findMemberByUserId(userId).orElseThrow(RuntimeException::new);
+        // 기존에 DB 에서 검색 해오던 로직을 redis 에서 가져오게 변경
+        Member member = memberCacheRepository.getUser(userId).map(Member::from)
+                .orElseGet(() -> memberRepository.findMemberByUserId(userId).orElseThrow(() -> new MemberNotFoundException("일치하는 회원이 없습니다.")));
         return noteRepository.findAllByMember(member);
     }
 
