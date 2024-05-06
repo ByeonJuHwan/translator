@@ -4,6 +4,7 @@
 2. TestContainer 로 통합 테스트 진행
 3. Feign Client 로 외부 api 와 통신
 4. redis 로 chache 사용
+5. rabbitMQ 로 데이터 처리
 
 ## TDD 개발
 
@@ -31,4 +32,6 @@ https://velog.io/@asdcz11/%EC%99%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BB%A8%ED%85%
 
 Header 에 대한 처리를 인테페이스에 위임하면서 코드의 간결성이 증가했습니다.
 
-## 
+## Redis 로 데이터 캐싱
+
+## rabbitMQ 로 데이터 비동기 처리
