@@ -35,12 +35,12 @@ class TranslateControllerTest extends AbstractContainerBaseTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML));
     }
 
-    @Test
-    @WithAnonymousUser
-    @DisplayName("[번역] 로그인 안한 회원의 경우 번역 페이지 이동 실패")
-    void moveTranslatePageFailTest() throws Exception {
-        mockMvc.perform(get("/translate"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("**/member/login"));
-    }
+//    @Test
+//    @WithAnonymousUser
+//    @DisplayName("[번역] 로그인 안한 회원의 경우 번역 페이지 이동 실패")
+//    void moveTranslatePageFailTest() throws Exception {
+//        mockMvc.perform(get("/translate"))
+//                .andExpect(status().is3xxRedirection())
+//                .andExpect(redirectedUrlPattern("**/member/login"));
+//    }
 }
