@@ -1,6 +1,7 @@
 package com.byeon.translator.domain.entity;
 
 
+import com.byeon.translator.dto.MemberCacheDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -39,6 +40,14 @@ public class Member {
                 .password(password)
                 .userId(userId)
                 .notes(notes)
+                .build();
+    }
+
+    public static Member from(MemberCacheDto memberCacheDto) {
+        return Member.builder()
+                .id(memberCacheDto.getId())
+                .userId(memberCacheDto.getUserId())
+                .name(memberCacheDto.getName())
                 .build();
     }
 }
