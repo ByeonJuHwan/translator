@@ -1,5 +1,6 @@
 package com.byeon.translator.domain.entity;
 
+import com.byeon.translator.controller.response.NoteResponse;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,5 +28,13 @@ public class Note {
     public void addMember(Member member) {
         this.member = member;
         member.getNotes().add(this);
+    }
+
+    public static Note of(NoteResponse noteResponse) {
+        return Note.builder()
+                .sendMessage(noteResponse.getSendMessage())
+                .translateMessage(noteResponse.getTranslateMessage())
+                .member(noteResponse.getMember())
+                .build();
     }
 }
