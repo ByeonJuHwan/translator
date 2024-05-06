@@ -1,6 +1,5 @@
-package com.byeon.translator.controller.response;
+package com.byeon.translator.controller.response.deepl;
 
-import com.byeon.translator.controller.response.deepl.DeeplTranslateResult;
 import lombok.Getter;
 import lombok.Setter;
 

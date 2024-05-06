@@ -2,7 +2,7 @@ package com.byeon.translator.controller.api;
 
 import com.byeon.translator.AbstractContainerBaseTest;
 import com.byeon.translator.controller.request.translate.TranslateRequest;
-import com.byeon.translator.controller.response.DeeplResponse;
+import com.byeon.translator.controller.response.deepl.DeeplResponse;
 import com.byeon.translator.controller.response.deepl.DeeplTranslateResult;
 import com.byeon.translator.service.translate.TranslateService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,19 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 @DisplayName("[번역] - 번역 api 컨트롤러")
 @AutoConfigureMockMvc
@@ -52,7 +49,7 @@ class TranslateRestControllerTest extends AbstractContainerBaseTest {
         response.setTranslations(Collections.singletonList(result));
 
 
-        given(translateService.callApiResult(any(TranslateRequest.class))).willReturn(response);
+        given(translateService.callApiResult(any(TranslateRequest.class), any(String.class))).willReturn(response);
 
         mvc.perform(post("/translate")
                         .contentType(MediaType.APPLICATION_JSON)
