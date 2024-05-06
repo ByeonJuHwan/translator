@@ -1,8 +1,10 @@
 package com.byeon.translator.security;
 
 
+import com.byeon.translator.Repository.MemberCacheRepository;
 import com.byeon.translator.Repository.member.MemberRepository;
 import com.byeon.translator.domain.entity.Member;
+import com.byeon.translator.dto.MemberCacheDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -18,13 +20,15 @@ import java.util.Collections;
 public class SecurityService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
+    private final MemberCacheRepository memberCacheRepository;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Member member = memberRepository.findMemberByUserId(username)
                 .orElseThrow(() -> new UsernameNotFoundException("아이디가 없습니다 : " + username));
 
-        // TODO redis 에 여기서 member 를 넣어 줘서 DB IO 를 줄여보자
-
+        // redis 에 member 정보 저장
+        memberCacheRepository.setUser(MemberCacheDto.of(member));
 
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority("USER");
         return new User(member.getUserId(), member.getPassword(), Collections.singletonList(authority));
