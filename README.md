@@ -1,13 +1,10 @@
 # 일본어 번역기 프로젝트
 
-1. TDD 로 개발
-2. TestContainer 로 통합 테스트 진행
-3. Feign Client 로 외부 api 와 통신
-4. redis 로 chache 사용
-5. rabbitMQ 로 데이터 처리
-
-## TDD 개발
-
+1. TestContainer 로 통합 테스트 진행
+2. Feign Client 로 외부 api 와 통신
+3. redis 로 chache 를 이용해서 성능 개선
+4. rabbitMQ 로 비동기 데이터 처리
+5. Gatling 으로 API 부하테스트
 
 ## TestContainer 를 사용한 이유
 
@@ -35,6 +32,12 @@ Header 에 대한 처리를 인테페이스에 위임하면서 코드의 간결�
 
 ## Redis 로 데이터 캐싱
 
+redis 를 사용하기 전까지는 비즈니스 로직상 같은 데이터를 가져오는 쿼리가 여러번 실행되는 상황이 있었습니다.
+(로그인 시에 회원이 존재하는치 체크, 쓰기 작업전에 회원의 정보를 가져오는 로직)
+
+맨 처음 DB 로 쿼리를 실행 시킬때 redis 에 값을 저장하면서 응답 속도 개선을 했습니다.
+
+
 ## rabbitMQ 로 데이터 비동기 처리
 
 비즈니스 로직을 처리함에 있어 동기적으로 처리하기 보다는 비동기적으로 구성하면서 따라오는 장점이 많다고 생각해 RabbitMQ를 사용했습니다.
@@ -43,3 +46,6 @@ Header 에 대한 처리를 인테페이스에 위임하면서 코드의 간결�
 rabbitMQ 에 대한 기본적인 내용입니다. 
 
 https://velog.io/@asdcz11/RabbitMQ-%EC%82%AC%EC%9A%A9%EA%B8%B0
+
+
+## Gatling 부하 테스트
