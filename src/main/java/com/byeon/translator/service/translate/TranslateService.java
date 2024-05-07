@@ -7,6 +7,9 @@ import com.byeon.translator.service.MessageQueueService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Recover;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -22,6 +25,10 @@ public class TranslateService {
     private final TranslateFeignClient translateFeignClient;
     private final MessageQueueService messageQueueService;
 
+    @Retryable(
+            maxAttempts = 2,
+            backoff = @Backoff(2000)
+    )
     public DeeplResponse callApiResult(TranslateRequest request, String userId) {
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("auth_key", apiKey);
@@ -34,5 +41,11 @@ public class TranslateService {
         messageQueueService.saveMQNote(request.getText(), translatedResult.getTranslations().get(0).getText(), userId);
 
         return translatedResult;
+    }
+
+    @Recover
+    public DeeplResponse recover(RuntimeException e, TranslateRequest request, String userId) {
+        log.error("All the retries failed, request : {}, error : {}", request.getText(), e.getMessage());
+        return null;
     }
 }
