@@ -1,6 +1,7 @@
 package com.byeon.translator.Repository;
 
 import com.byeon.translator.dto.MemberCacheDto;
+import com.byeon.translator.exception.custom.ConvertJsonException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +29,7 @@ public class MemberCacheRepository {
             log.info("Set User to Redis {}, {}", key, memberJson);
             userRedisTemplate.opsForValue().set(key, memberJson, USER_CACHE_TTL);
         } catch (JsonProcessingException e) {
-            // TODO 상황에 맞느 예외로 변경
-            throw new RuntimeException(e);
+            throw new ConvertJsonException("Failed convert Dto To Json");
         }
     }
 
@@ -43,8 +43,7 @@ public class MemberCacheRepository {
             }
             return Optional.empty();
         } catch (JsonProcessingException e) {
-            // TODO 상황에 맞는 예외로 변경
-            throw new RuntimeException("test");
+            throw new ConvertJsonException("Failed convert Json To Dto");
         }
     }
 
