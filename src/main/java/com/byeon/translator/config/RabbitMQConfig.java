@@ -19,9 +19,18 @@ public class RabbitMQConfig {
     public static final String NOTE_EXCHANGE = "note.exchange";
     public static final String NOTE_ROUTE_KEY = "note.route.key";
 
+    public static final String RANKING_QUEUE = "ranking";
+    public static final String RANKING_EXCHANGE = "ranking.exchange";
+    public static final String RANKING_ROUTE_KEY = "ranking.route.key";
+
     @Bean
     public Queue noteQueue() {
         return new Queue(NOTE_QUEUE);
+    }
+
+    @Bean
+    public Queue rankingQueue() {
+        return new Queue(RANKING_QUEUE);
     }
 
     @Bean
@@ -30,8 +39,18 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public DirectExchange rankingExchange() {
+        return new DirectExchange(RANKING_EXCHANGE);
+    }
+
+    @Bean
     public Binding bindingNote(Queue noteQueue, DirectExchange noteExchange) {
         return BindingBuilder.bind(noteQueue).to(noteExchange).with(NOTE_ROUTE_KEY);
+    }
+
+    @Bean
+    public Binding bindingRanking(Queue rankingQueue, DirectExchange rankingExchange) {
+        return BindingBuilder.bind(rankingQueue).to(rankingExchange).with(RANKING_ROUTE_KEY);
     }
 
     @Bean
