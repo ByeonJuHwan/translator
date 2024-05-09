@@ -33,6 +33,11 @@ public class NoteService {
 
     @Transactional
     public void saveNote(NoteResponse noteResponse) {
-        noteRepository.save(Note.of(noteResponse));
+        long duplicateNoteCount = noteRepository.countNoteBySendMessageAndTranslateMessageAndMember
+                (noteResponse.getSendMessage(), noteResponse.getTranslateMessage(), noteResponse.getMember());
+
+        if (duplicateNoteCount == 0) {
+            noteRepository.save(Note.of(noteResponse));
+        }
     }
 }
