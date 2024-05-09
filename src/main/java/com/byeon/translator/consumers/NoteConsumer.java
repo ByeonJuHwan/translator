@@ -18,7 +18,7 @@ public class NoteConsumer {
     private final NoteService noteService;
 
     @Transactional
-    @RabbitListener(queues = RabbitMQConfig.NOTE_QUEUE, concurrency = "1", containerFactory = "rabbitListenerContainerFactory")
+    @RabbitListener(queues = RabbitMQConfig.NOTE_QUEUE,  containerFactory = "rabbitListenerContainerFactory")
     public void saveNote(NoteResponse noteResponse) {
         try {
             noteService.saveNote(noteResponse);

@@ -3,6 +3,7 @@ package com.byeon.translator.service;
 import com.byeon.translator.Repository.MemberCacheRepository;
 import com.byeon.translator.Repository.member.MemberRepository;
 import com.byeon.translator.config.RabbitMQConfig;
+import com.byeon.translator.controller.request.NoteRequest;
 import com.byeon.translator.controller.response.NoteResponse;
 import com.byeon.translator.domain.entity.Member;
 import com.byeon.translator.dto.MemberCacheDto;
@@ -31,5 +32,11 @@ public class MessageQueueService {
         log.info("Start rabbitMQ save note : {}", noteResponse);
 
         rabbitTemplate.convertAndSend(RabbitMQConfig.NOTE_EXCHANGE, RabbitMQConfig.NOTE_ROUTE_KEY, noteResponse);
+    }
+
+    @Async
+    public void saveRank(NoteRequest noteRequest) {
+        log.info("Start rabbitMQ save rank : {}", noteRequest);
+        rabbitTemplate.convertAndSend(RabbitMQConfig.RANKING_EXCHANGE,RabbitMQConfig.RANKING_ROUTE_KEY, noteRequest);
     }
 }
