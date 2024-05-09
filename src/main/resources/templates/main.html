@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>번역기 홈페이지</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* 기존 CSS 스타일 유지 */
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+        .bg-full {
+            min-height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+        .footer-custom {
+            background-color: #222;
+            color: #ddd;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            line-height: 60px;
+        }
+        .navbar-custom {
+            background-color: #555;
+            color: #fff;
+        }
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #fff;
+        }
+        .centered-form {
+            min-width: 300px;
+        }
+        .nav-item {
+            margin-right: 20px;
+        }
+        /* 추가적인 스타일 */
+        .ranking-title {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .ranking-list {
+            font-size: 16px; /* 모바일 환경에 맞게 폰트 사이즈 조정 */
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container">
+        <a class="navbar-brand" href="/">번역기</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item" sec:authorize="isAnonymous()">
+                    <a class="nav-link" th:href="@{/member/login}">로그인</a>
+                </li>
+                <li class="nav-item" sec:authorize="isAnonymous()">
+                    <a class="nav-link" th:href="@{/member/join}">회원가입</a>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="btn btn-outline-light">로그아웃</button>
+                    </form>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <form th:action="@{/notes}" method="get">
+                        <button type="submit" class="btn btn-outline-light">단어장</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container mt-5">
+    <div class="ranking-title">오늘의 일본어 탑 5</div>
+    <div class="list-group ranking-list">
+        <th:block th:each="ranking : ${ranking}">
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1"><span th:text="${ranking.sendMessage}"></span></h5>
+                    <small>번역: <span th:text="${ranking.translateMessage}"></span></small>
+                </div>
+            </a>
+        </th:block>
+    </div>
+</div>
+
+<div class="bg-full">
+    <div class="centered-form text-center">
+        <th:block sec:authorize="isAuthenticated()">
+            <h1>번역기 사용하기</h1>
+            <p>어서오세요, <span sec:authentication="name"></span>님!</p>
+            <form th:action="@{/translate}" method="get">
+                <button type="submit" class="btn btn-primary btn-lg">번역기 사용하기</button>
+            </form>
+        </th:block>
+        <th:block sec:authorize="isAnonymous()">
+            <h1>실시간 번역기 입니다</h1>
+            <div class="mt-4">
+                <a th:href="@{/member/login}" class="btn btn-primary btn-lg">로그인</a>
+                <a th:href="@{/member/join}" class="btn btn-secondary btn-lg">회원가입</a>
+            </div>
+        </th:block>
+    </div>
+</div>
+
+<footer class="footer-custom">
+    번역기 프로그램
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
