@@ -3,8 +3,10 @@ package com.byeon.translator.service.note;
 import com.byeon.translator.Repository.MemberCacheRepository;
 import com.byeon.translator.Repository.NoteRepository;
 import com.byeon.translator.Repository.member.MemberRepository;
+import com.byeon.translator.controller.response.NoteResponse;
 import com.byeon.translator.domain.entity.Member;
 import com.byeon.translator.domain.entity.Note;
+import com.byeon.translator.dto.MemberCacheDto;
 import com.byeon.translator.exception.custom.MemberNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +21,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @DisplayName("[단어장] 번역 단어장 비즈니스 로직")
 @ExtendWith(MockitoExtension.class)
@@ -64,10 +66,44 @@ class NoteServiceTest {
         String userId = "nonexistentUser";
 
         // when
-        when(memberCacheRepository.getUser(userId)).thenReturn(Optional.empty());
+        when(memberCacheRepository.getUser(userId, MemberCacheDto.class)).thenReturn(Optional.empty());
         when(memberRepository.findMemberByUserId(userId)).thenReturn(Optional.empty());
 
         // 검증
         assertThatThrownBy(() -> sut.findMyNotes(userId)).isInstanceOf(MemberNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("[단어장] 번역한 단어를 저장한다.")
+    void saveNote() {
+        Member member = Member.builder()
+                .userId("test")
+                .build();
+
+        NoteResponse noteResponse = new NoteResponse("안녕", "hello", member);
+
+        when(noteRepository.countNoteBySendMessageAndTranslateMessageAndMember(noteResponse.getSendMessage(), noteResponse.getTranslateMessage(), noteResponse.getMember()))
+                .thenReturn(0L);
+
+        sut.saveNote(noteResponse);
+
+        verify(noteRepository, times(1)).save(any(Note.class));
+    }
+
+    @Test
+    @DisplayName("[단어장] 중복되는 단어를 번역하면 저장하지 않는다.")
+    void doNot_save_note() {
+        Member member = Member.builder()
+                .userId("test")
+                .build();
+
+        NoteResponse noteResponse = new NoteResponse("안녕", "hello", member);
+
+        when(noteRepository.countNoteBySendMessageAndTranslateMessageAndMember(noteResponse.getSendMessage(), noteResponse.getTranslateMessage(), noteResponse.getMember()))
+                .thenReturn(1L);
+
+        sut.saveNote(noteResponse);
+
+        verify(noteRepository, times(0)).save(any(Note.class));
     }
 }

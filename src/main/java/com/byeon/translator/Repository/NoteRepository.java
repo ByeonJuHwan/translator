@@ -12,5 +12,7 @@ import java.util.List;
 public interface NoteRepository extends JpaRepository<Note, Long> {
 
     List<Note> findAllByMember(Member member);
+
+    long countNoteBySendMessageAndTranslateMessageAndMember(String sendMessage, String translateMessage, Member member);
 }
 

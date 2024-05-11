@@ -25,4 +25,9 @@ public class GlobalExceptionHandler {
         model.addAttribute("member", new MemberJoinResponse());
         return "member/join";
     }
+
+    @ExceptionHandler(Exception.class)
+    public String handlerException(Exception e) {
+        return "error/500";
+    }
 }
