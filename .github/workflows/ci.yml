@@ -94,5 +94,5 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             docker pull ${{ secrets.DOCKER_IMAGE_NAME }}
-            cd /srv/teutoo-server/bin
+            cd /home/ubuntu/translator
             docker compose up --build translator-server -d
