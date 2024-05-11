@@ -30,7 +30,12 @@ jobs:
           mkdir -p ./src/test/resources
           touch ./src/test/resources/application.yml
           echo "${{ secrets.PROPERTIES_TEST }}" > ./src/test/resources/application.yml
-          
+
+      - name: make docker-compose.yml
+        run: |
+          mkdir -p ./
+          touch ./docker-compose.yml
+          echo "${{ secrets.DOCKER_COMPOSE }}" > ./docker-compose.yml
 
       # Gradle Caching 을 통해서 빌드 과정 시간 단축
       - name: Cache Gradle packages
