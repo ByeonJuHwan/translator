@@ -1,4 +1,4 @@
-name: Translator CI / CD 
+name: Translator CI / CD
 
 on:
    push:
